@@ -1,0 +1,10 @@
+.todo-form {
+  @apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 px-6 max-w-lg backdrop-blur-sm;
+  width: calc(100% - 48px);
+}
+.todo {
+  @apply min-h-[3.5rem] w-full bg-gray-600 rounded-lg place-items-center grid;
+}
+.todo-input {
+  @apply w-full h-full outline-none bg-transparent text-gray-50 placeholder:text-gray-400 text-xl px-3 caret-blue-400;
+}
