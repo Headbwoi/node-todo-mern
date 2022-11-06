@@ -19,3 +19,5 @@ const deleteTodo = (req, res) => {
   const { id } = req.params
   res.status(200).json({ message: `todo with ${id} deleted successfully` })
 }
+
+export default { getAllTodos, getOneTodo, createTodo, updateTodo, deleteTodo }
