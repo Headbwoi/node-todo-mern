@@ -3,7 +3,7 @@ import NewTodoButton from "./components/NewTodoButton"
 import TodoForm from "./components/TodoForm"
 
 function App() {
-  const [openTodoModal, setOpenTodoModal] = useState(true)
+  const [openTodoModal, setOpenTodoModal] = useState(false)
   const handleNewTodoModal = () => {
     setOpenTodoModal((prev) => !prev)
   }
@@ -23,9 +23,10 @@ function App() {
             handleNewTodoModal={handleNewTodoModal}
           />
         </div>
+        {/* todo items list */}
       </div>
 
-      {openTodoModal && <TodoForm handleNewTodoModal={handleNewTodoModal}/>}
+      {openTodoModal && <TodoForm handleNewTodoModal={handleNewTodoModal} />}
     </div>
   )
 }
