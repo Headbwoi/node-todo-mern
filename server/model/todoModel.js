@@ -7,10 +7,10 @@ const todoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  body: {
+  todo: {
     type: String,
     required: true,
   },
 })
 
-export default mongoose.model("TodoSchema", todoSchema)
+export default mongoose.model("TodoModel", todoSchema)
