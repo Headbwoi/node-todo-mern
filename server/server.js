@@ -6,8 +6,19 @@ import mongoose from "mongoose"
 
 dotenv.config()
 const app = express()
-const port = process.env.PORT || 4000
-// app.use(cors)
+const port = process.env.PORT
+
+const whiteList = ["http://localhost:3000", "https://example.app"]
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not Allowed To Access This Route"))
+    }
+  },
+}
+app.use(cors(corsOptions))
 
 mongoose.connect("mongodb://localhost:27017/todo-database")
 const db = mongoose.connection
