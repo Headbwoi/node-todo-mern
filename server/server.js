@@ -8,18 +8,18 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT
 
-// const whiteList = ["http://127.0.0.1:5173/", "http://localhost:3000"]
-// const corsOption = {
-//   origin: (origin, callback) => {
-//     if (whiteList.indexOf(origin) !== -1 || !origin) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error("not allowed by CORS"))
-//     }
-//   },
-//   optionSuccessStatus: 200,
-// }
-app.use(cors())
+const whiteList = ["http://127.0.0.1:5173", "http://localhost:3000"]
+const corsOption = {
+  origin: (origin, callback) => {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error("not allowed by CORS"))
+    }
+  },
+  optionSuccessStatus: 200,
+}
+app.use(cors(corsOption))
 
 mongoose.connect("mongodb://localhost:27017/todo-database")
 const db = mongoose.connection
