@@ -24,7 +24,6 @@ function App() {
         },
         referrerPolicy: "no-referrer",
         body: JSON.stringify(bodyData),
-        redirect: "follow",
       })
       getData()
       return data.json()
@@ -37,6 +36,18 @@ function App() {
       getData()
     }
   }, [])
+
+  const handleEdit = () => {}
+
+  const handleDelete = async (id: string) => {
+    console.log(id)
+    const data = await fetch(`http://localhost:3000/todos/${id}`, {
+      method: "DELETE",
+    })
+    getData()
+    return data.json()
+  }
+
   return (
     <div className="container w-full">
       <header className="w-fit mx-auto py-10 mb-14 flex items-center justify-center">
@@ -58,9 +69,10 @@ function App() {
           {todoList?.map((item: TodoList, index) => (
             <TodoList
               key={index}
-              id={item.id}
+              _id={item._id}
               title={item.title}
               todo={item.todo}
+              handleDelete={handleDelete}
             />
           ))}
         </div>
