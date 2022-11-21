@@ -37,10 +37,7 @@ function App() {
     }
   }, [])
 
-  const handleEdit = () => {}
-
   const handleDelete = async (id: string) => {
-    console.log(id)
     const data = await fetch(`http://localhost:3000/todos/${id}`, {
       method: "DELETE",
     })
