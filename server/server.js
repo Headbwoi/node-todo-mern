@@ -21,10 +21,13 @@ const port = process.env.PORT
 // }
 app.use(cors())
 
-mongoose.connect("mongodb://localhost:27017/todo-database")
-const db = mongoose.connection
-db.on("error", (error) => console.errpr(error))
-db.once("open", () => console.log("database connected"))
+mongoose
+  .connect(`${process.env.DATABASE_URL}`)
+  .then(() => console.log("database connected"))
+  .catch((err) => console.error(err))
+// const db = mongoose.connection
+// db.on("error", (error) => console.error(error))
+// db.once("open", () => console.log("database connected"))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
