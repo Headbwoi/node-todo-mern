@@ -5,23 +5,54 @@ type TodoForm = {
   handleNewTodoModal?: () => void
   setOpenTodoModal: React.Dispatch<React.SetStateAction<boolean>>
   uploadData: (bodyData: {}) => Promise<any>
+  handleEdit: (id: string, payload: {}) => Promise<any>
+  todoValues: {
+    _id: string
+    title: string
+    todo: string
+  }
+  setTodoValues: React.Dispatch<
+    React.SetStateAction<{
+      _id: string
+      title: string
+      todo: string
+    }>
+  >
+  isEditing: Boolean
+  setIsEditing: React.Dispatch<React.SetStateAction<Boolean>>
 }
 const TodoForm = ({
   handleNewTodoModal,
   setOpenTodoModal,
   uploadData,
+  handleEdit,
+  todoValues,
+  setTodoValues,
+  isEditing,
+  setIsEditing,
 }: TodoForm) => {
   const titleRef = useRef<HTMLInputElement>(null)
   const todoRef = useRef<HTMLInputElement>(null)
 
+  const updateField = (e: any) => {
+    const { name, value } = e.target
+    const nextFormState = {
+      ...todoValues,
+      [name]: value,
+      [e.target._id]: e.target._id,
+    }
+    setTodoValues(nextFormState)
+  }
+  let bodyData: {} = {
+    title: titleRef.current?.value,
+    todo: todoRef.current?.value,
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    let bodyData: {} = {
-      title: titleRef.current?.value,
-      todo: todoRef.current?.value,
-    }
-
-    uploadData(bodyData)
+    isEditing == true
+      ? handleEdit(todoValues._id, bodyData)
+      : uploadData(bodyData)
     setOpenTodoModal(false)
   }
   return (
@@ -49,6 +80,8 @@ const TodoForm = ({
               className="todo-input"
               placeholder="todo title"
               ref={titleRef}
+              value={todoValues.title}
+              onChange={updateField}
               required
             />
           </div>
@@ -59,11 +92,13 @@ const TodoForm = ({
               placeholder="todo body"
               //@ts-ignore
               ref={todoRef}
+              value={todoValues.todo}
+              onChange={updateField}
               required
             />
           </div>
           <div>
-            <NewTodoButton content="Create Todo" />
+            <NewTodoButton content={isEditing ? "Edit Todo" : "Create Todo"} />
           </div>
         </div>
       </form>

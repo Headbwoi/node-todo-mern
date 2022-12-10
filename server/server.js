@@ -22,8 +22,12 @@ const port = process.env.PORT
 app.use(cors())
 
 mongoose
-  .connect(`${process.env.DATABASE_URL}`)
-  .then(() => console.log("database connected"))
+  .connect(`${process.env.LOCAL_URL}`)
+  .then(() =>
+    app.listen(port, () =>
+      console.log(`Database connected, app listening on port ${port}!!!`)
+    )
+  )
   .catch((err) => console.error(err))
 // const db = mongoose.connection
 // db.on("error", (error) => console.error(error))
@@ -34,4 +38,3 @@ app.use(express.urlencoded({ extended: false }))
 
 app.get("/", (req, res) => res.send("Hello World!"))
 app.use("/", router)
-app.listen(port, () => console.log(`Example app listening on port ${port}!!!`))

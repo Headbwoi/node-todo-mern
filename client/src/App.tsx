@@ -6,9 +6,12 @@ import TodoList from "./components/TodoList"
 function App() {
   const [openTodoModal, setOpenTodoModal] = useState(false)
   const [todoList, setTodoList] = useState<[] | undefined>()
+  const [isEditing, setIsEditing] = useState<Boolean>(false)
+  const [todoValues, setTodoValues] = useState({ _id: "", title: "", todo: "" })
 
   const handleNewTodoModal = () => {
     setOpenTodoModal((prev) => !prev)
+    setIsEditing(false)
   }
   const getData = async () => {
     const data = await fetch("http://localhost:3000/todos")
@@ -37,6 +40,21 @@ function App() {
     }
   }, [])
 
+  const handleEdit = async (id: string, payload: {}) => {
+    try {
+      const data = await fetch(`http://localhost:3000/todos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+      getData()
+      return data.json()
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const handleDelete = async (id: string) => {
     const data = await fetch(`http://localhost:3000/todos/${id}`, {
       method: "DELETE",
@@ -69,18 +87,30 @@ function App() {
               _id={item._id}
               title={item.title}
               todo={item.todo}
+              handleEdit={handleEdit}
               handleDelete={handleDelete}
+              setIsEditing={setIsEditing}
+              todoValues={todoValues}
+              setTodoValues={setTodoValues}
+              setOpenTodoModal={setOpenTodoModal}
             />
           ))}
         </div>
       </div>
 
-      {openTodoModal && (
+      {openTodoModal == true || isEditing == true ? (
         <TodoForm
           handleNewTodoModal={handleNewTodoModal}
           setOpenTodoModal={setOpenTodoModal}
           uploadData={uploadData}
+          handleEdit={handleEdit}
+          todoValues={todoValues}
+          setTodoValues={setTodoValues}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
         />
+      ) : (
+        ""
       )}
     </div>
   )
