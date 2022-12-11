@@ -3,15 +3,16 @@ import NewTodoButton from "./components/NewTodoButton"
 import TodoForm from "./components/TodoForm"
 import TodoList from "./components/TodoList"
 
+export const initialFormStates = { _id: "", title: "", todo: "" }
 function App() {
   const [openTodoModal, setOpenTodoModal] = useState(false)
   const [todoList, setTodoList] = useState<[] | undefined>()
   const [isEditing, setIsEditing] = useState<Boolean>(false)
-  const [todoValues, setTodoValues] = useState({ _id: "", title: "", todo: "" })
-
+  const [todoValues, setTodoValues] = useState(initialFormStates)
   const handleNewTodoModal = () => {
     setOpenTodoModal((prev) => !prev)
     setIsEditing(false)
+    setTodoValues(initialFormStates)
   }
   const getData = async () => {
     const data = await fetch("http://localhost:3000/todos")
@@ -98,7 +99,7 @@ function App() {
         </div>
       </div>
 
-      {openTodoModal == true || isEditing == true ? (
+      {openTodoModal || isEditing ? (
         <TodoForm
           handleNewTodoModal={handleNewTodoModal}
           setOpenTodoModal={setOpenTodoModal}

@@ -1,4 +1,5 @@
 import { FormEvent, useRef } from "react"
+import { initialFormStates } from "../App"
 import NewTodoButton from "./NewTodoButton"
 import "./todo.css"
 type TodoForm = {
@@ -54,6 +55,8 @@ const TodoForm = ({
       ? handleEdit(todoValues._id, bodyData)
       : uploadData(bodyData)
     setOpenTodoModal(false)
+    setIsEditing(false)
+    setTodoValues(initialFormStates)
   }
   return (
     <>
@@ -98,7 +101,11 @@ const TodoForm = ({
             />
           </div>
           <div>
-            <NewTodoButton content={isEditing ? "Edit Todo" : "Create Todo"} />
+            {isEditing == true ? (
+              <NewTodoButton content="Edit Todo" />
+            ) : (
+              <NewTodoButton content="Create Todo" />
+            )}
           </div>
         </div>
       </form>
