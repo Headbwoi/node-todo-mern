@@ -36,9 +36,7 @@ function App() {
     }
   }
   useEffect(() => {
-    return () => {
-      getData()
-    }
+    getData()
   }, [])
 
   const handleEdit = async (id: string, payload: {}) => {
