@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 mongoose
-  .connect(`${process.env.LOCAL_URL}`)
+  .connect(`${process.env.DATABASE_URL}`)
   .then(() =>
     app.listen(port, () =>
       console.log(`Database connected, app listening on port ${port}!!!`)

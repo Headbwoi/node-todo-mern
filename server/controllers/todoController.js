@@ -1,9 +1,9 @@
-import TodoModel from "../model/todoModel.js"
+import Todo from "../model/todoModel.js"
 
 // GET Gets all TODO
 const getAllTodos = async (req, res) => {
   try {
-    const todos = await TodoModel.find()
+    const todos = await Todo.find()
     res.json(todos)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -17,7 +17,7 @@ const getOneTodo = (req, res) => {
 
 //POST Creates a single Todo
 const createTodo = async (req, res) => {
-  const todo = new TodoModel({
+  const todo = new Todo({
     title: req.body.title,
     todo: req.body.todo,
   })
@@ -61,7 +61,7 @@ const deleteTodo = async (req, res) => {
 const getTodo = async (req, res, next) => {
   let todo
   try {
-    todo = await TodoModel.findById(req.params.id)
+    todo = await Todo.findById(req.params.id)
     if (!todo || todo == null) {
       return res.status(404).json({ message: "cant find Todo" })
     }
